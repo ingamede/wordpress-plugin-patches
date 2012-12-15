@@ -1,0 +1,48 @@
+From d293ef4a2bd8157dd4dd498c45d337cf85b225cc Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <klischies@ingame.de>
+Date: Sun, 4 Mar 2012 22:20:37 +0100
+Subject: [PATCH] Fix: Javascript and deprecated errors caused by WpPolls + Wp 331
+
+
+---
+ wp-polls/wp-polls.php |   12 +++++++-----
+ 1 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/wp-polls/wp-polls.php b/wp-polls/wp-polls.php
+index bc80ad7..8ad7d50 100644
+--- a/wp-polls/wp-polls.php
++++ b/wp-polls/wp-polls.php
+@@ -264,16 +264,17 @@ function poll_scripts_admin($hook_suffix) {
+ add_action('admin_footer-post-new.php', 'poll_footer_admin');
+ add_action('admin_footer-post.php', 'poll_footer_admin');
+ add_action('admin_footer-page-new.php', 'poll_footer_admin');
+-add_action('admin_footer-page.php', 'poll_footer_admin');
++add_action('admin_footer-page.php', 'poll_footer_admin', 9999);
+ function poll_footer_admin() {
+ 	// Javascript Code Courtesy Of WP-AddQuicktag (http://bueltge.de/wp-addquicktags-de-plugin/120/)
+ 	echo '<script type="text/javascript">'."\n";
+ 	echo '/* <![CDATA[ */'."\n";
++	echo "\t".'jQuery(document).ready(function() {'."\n";
+ 	echo "\t".'var pollsEdL10n = {'."\n";
+-	echo "\t\t".'enter_poll_id: "'.js_escape(__('Enter Poll ID', 'wp-polls')).'",'."\n";
+-	echo "\t\t".'enter_poll_id_again: "'.js_escape(__('Error: Poll ID must be numeric', 'wp-polls')).'\n\n'.js_escape(__('Please enter Poll ID again', 'wp-polls')).'",'."\n";
+-	echo "\t\t".'poll: "'.js_escape(__('Poll', 'wp-polls')).'",'."\n";
+-	echo "\t\t".'insert_poll: "'.js_escape(__('Insert_Poll', 'wp-polls')).'"'."\n";
++	echo "\t\t".'enter_poll_id: "'.esc_js('Enter Poll ID').'",'."\n";
++	echo "\t\t".'enter_poll_id_again: "'.esc_js('Error: Poll ID must be numeric').'\n\n'.esc_js('Please enter Poll ID again').'",'."\n";
++	echo "\t\t".'poll: "'.esc_js('Poll').'",'."\n";
++	echo "\t\t".'insert_poll: "'.esc_js('Insert_Poll').'"'."\n";
+ 	echo "\t".'};'."\n";
+ 	echo "\t".'function insertPoll(where, myField) {'."\n";
+ 	echo "\t\t".'var poll_id = jQuery.trim(prompt(pollsEdL10n.enter_poll_id));'."\n";
+@@ -302,6 +303,7 @@ function poll_footer_admin() {
+ 	echo "\t\t".'qt_button.id = "ed_poll";'."\n";
+ 	echo "\t\t".'qt_toolbar.appendChild(qt_button);'."\n";
+ 	echo "\t".'}'."\n";
++	echo "\t".'});'."\n";
+ 	echo '/* ]]> */'."\n";
+ 	echo '</script>'."\n";
+ }
+-- 
+1.7.7.msysgit.1
+

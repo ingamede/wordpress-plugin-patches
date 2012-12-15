@@ -1,0 +1,26 @@
+From d0aaca35d62e1a4375cf990e815e4522ea9732c7 Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Sun, 19 Feb 2012 15:37:53 +0100
+Subject: [PATCH] fix: missing isset to prevent notices
+
+---
+ add-local-avatar/avatars.php |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/add-local-avatar/avatars.php b/add-local-avatar/avatars.php
+index 72624f5..ccf9e25 100644
+--- a/add-local-avatar/avatars.php
++++ b/add-local-avatar/avatars.php
+@@ -723,7 +723,8 @@ class add_local_avatars {
+ 
+ 			// Replace...
+ 			for($i = 0; $i <= $counter; $i++) {
+-				$content = str_replace($matches[0][$i], $replacement[$i], $content);
++				if (isset($matches[0][$i]) && isset($replacement[$i]))
++					$content = str_replace($matches[0][$i], $replacement[$i], $content);
+ 			}
+ 		}
+ 
+-- 
+1.7.7.msysgit.1
+

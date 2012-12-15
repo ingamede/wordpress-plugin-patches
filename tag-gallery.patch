@@ -1,0 +1,66 @@
+From b90e5a213fdc854e234782c23004955b9d9464f5 Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Wed, 21 Mar 2012 21:51:44 +0100
+Subject: [PATCH] Fix: Wrong constant definitions, wrong style inclusion
+
+---
+ tag-gallery/tag-gallery.php |   34 ++++++++++++++++++++++------------
+ 1 files changed, 22 insertions(+), 12 deletions(-)
+
+diff --git a/tag-gallery/tag-gallery.php b/tag-gallery/tag-gallery.php
+index 7885643..3f8470b 100644
+--- a/tag-gallery/tag-gallery.php
++++ b/tag-gallery/tag-gallery.php
+@@ -19,21 +19,12 @@ if ( !defined( 'WP_PLUGIN_URL' ) )
+ if ( !defined( 'WP_PLUGIN_DIR' ) )
+ 	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+ 	
+-define( TAGGALLERY, WP_PLUGIN_DIR . '/tag-gallery' );
+-define( TAGGALLERY_URL, WP_PLUGIN_URL . '/tag-gallery');
++define( "TAGGALLERY", WP_PLUGIN_DIR . '/tag-gallery' );
++define( "TAGGALLERY_URL", WP_PLUGIN_URL . '/tag-gallery');
+ 
+ // Add the shortcode to wordpress
+ add_shortcode('tag-gallery', 'tag_gallery_shortcode');
+-
+-// Enqueue our styles from Cleaner Gallery if available, otherwise use our local style.
+-if(!is_admin()) {
+-	// TODO There must be a function to check if a style is enqueued already.. ?? 
+-	if(file_exists(WP_PLUGIN_DIR . '/cleaner-gallery/cleaner-gallery.php')) {		
+-		wp_enqueue_style( 'cleaner-gallery', WP_PLUGIN_URL . '/cleaner-gallery/cleaner-gallery.css', false, 0.7, 'all' );
+-	} else {
+-		wp_enqueue_style( 'tag-gallery', TAGGALLERY_URL . '/cleaner-gallery.css', false, 0.7, 'all' );
+-	}
+-}
++add_action('init', 'tag_gallery_loadstyles');
+ 
+ /**
+  * The tag-gallery short-code implementation.
+@@ -211,4 +202,23 @@ function tag_gallery_get_images($tags)
+ 	}
+ 	return $images;
+ 	
++}
++
++/**
++ * undocumented function
++ *
++ * @return void
++ * @author  
++ */
++function tag_gallery_loadstyles()
++{
++	// Enqueue our styles from Cleaner Gallery if available, otherwise use our local style.
++	if(!is_admin()) {
++		// TODO There must be a function to check if a style is enqueued already.. ?? 
++		if(file_exists(WP_PLUGIN_DIR . '/cleaner-gallery/cleaner-gallery.php')) {		
++			wp_enqueue_style( 'cleaner-gallery', WP_PLUGIN_URL . '/cleaner-gallery/cleaner-gallery.css', false, 0.7, 'all' );
++		} else {
++			wp_enqueue_style( 'tag-gallery', TAGGALLERY_URL . '/cleaner-gallery.css', false, 0.7, 'all' );
++		}
++	}
+ }
+\ No newline at end of file
+-- 
+1.7.7.msysgit.1
+

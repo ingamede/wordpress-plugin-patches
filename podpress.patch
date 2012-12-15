@@ -1,0 +1,25 @@
+From 98dc9070911e270fd9f083db3b516b5791ef6434 Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Sun, 19 Feb 2012 16:03:17 +0100
+Subject: [PATCH] Fix: podpress undefined property
+
+---
+ podpress/podpress_class.php |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/podpress/podpress_class.php b/podpress/podpress_class.php
+index e08fcb2..a2ac5fb 100644
+--- a/podpress/podpress_class.php
++++ b/podpress/podpress_class.php
+@@ -1070,7 +1070,7 @@ License:
+ 				return str_replace($this->podcasttag, '', $content);
+ 			}
+ 
+-			if(!is_array($post->podPressMedia)) {
++			if(!isset($post->podPressMedia) || !is_array($post->podPressMedia)) {
+ 				return str_replace($this->podcasttag,'',$content);
+ 			}
+ 
+-- 
+1.7.7.msysgit.1
+

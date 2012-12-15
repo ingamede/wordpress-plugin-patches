@@ -1,0 +1,25 @@
+From b58d7f2cd8ac99139aac42b488b2a9878e53e105 Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Sun, 19 Feb 2012 14:32:46 +0100
+Subject: [PATCH] Fix: Undefinded index in easytablecreator
+
+---
+ easy-table-creator/easy-table-creator.php |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/easy-table-creator/easy-table-creator.php b/easy-table-creator/easy-table-creator.php
+index ba71e6a..5b32b35 100644
+--- a/easy-table-creator/easy-table-creator.php
++++ b/easy-table-creator/easy-table-creator.php
+@@ -228,7 +228,7 @@ if (!class_exists("EasyTableCreator")) {
+                     $EasyTableCreatorAdminOptions = $this->getAdminOptions();
+ 
+                     //not sure about this one
+-                    if ($EasyTableCreatorAdminOptions['show_header'] == "false") { return; }
++                    if (isset($EasyTableCreatorAdminOptions['show_header']) && $EasyTableCreatorAdminOptions['show_header'] == "false") { return; }
+ 
+                 }
+ 
+-- 
+1.7.7.msysgit.1
+

@@ -1,0 +1,39 @@
+From 4bff37ad18b74c2bdbccafc81e4068897abda8de Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <klischies@ingame.de>
+Date: Tue, 17 Jul 2012 12:05:59 +0200
+Subject: [PATCH] Fixed issue: ShadowboxJS breaks attachment comment feed urls
+
+---
+ shadowbox-js/inc/frontend.php |   11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/shadowbox-js/inc/frontend.php b/shadowbox-js/inc/frontend.php
+index 9d8a1ab..685dc43 100644
+--- a/shadowbox-js/inc/frontend.php
++++ b/shadowbox-js/inc/frontend.php
+@@ -46,9 +46,7 @@
+ 				add_filter ( 'wp_get_attachment_link' , array ( &$this , 'add_attr_to_link' ) , 12 , 2 );
+ 			}
+ 
+-			// If we are automating for images make sure we link directly to the attachment
+-			if ( $this->is_automatic ( 'img' ) )
+-				add_filter ( 'attachment_link' , array ( &$this , 'attachment_direct_linkage' ) , 10 , 2 );
++			add_action('posts_selection', array(&$this, 'modify_attachment_link'));
+ 
+ 			if ( ! function_exists ( 'get_admin_url' ) )
+ 				add_filter ( 'admin_url' , array ( &$this , 'admin_url_scheme' ) );
+@@ -358,4 +356,11 @@
+ 
+ 		return $content;
+ 	}
++
++	function modify_attachment_link() {
++			// If we are automating for images make sure we link directly to the attachment
++			// This has to be done in or after the posts_selection hook because is_attachment() is not available before that hook
++			if ( $this->is_automatic ( 'img' ) && !is_attachment() )
++				add_filter ( 'attachment_link' , array ( &$this , 'attachment_direct_linkage' ) , 10 , 2 );
++	}
+ }
+-- 
+1.7.10.msysgit.1
+

@@ -1,0 +1,25 @@
+From c7ac6c169dbd43194763f7050f697bf320855a4a Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Sun, 19 Feb 2012 15:23:08 +0100
+Subject: [PATCH] Fix: WPSEO undefined index
+
+---
+ wordpress-seo/frontend/class-frontend.php |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/wordpress-seo/frontend/class-frontend.php b/wordpress-seo/frontend/class-frontend.php
+index 74e5550..d293ada 100644
+--- a/wordpress-seo/frontend/class-frontend.php
++++ b/wordpress-seo/frontend/class-frontend.php
+@@ -502,7 +502,7 @@ class WPSEO_Frontend {
+ 		if ( is_singular() ) { 
+ 			global $post;
+ 			$metakey = wpseo_get_value('metakeywords');
+-			if ( !$metakey || empty( $metakey ) && isset( $options['metakey-'.$post->post_type] ) ) {
++			if ( ( !$metakey || empty( $metakey ) ) && isset( $options['metakey-'.$post->post_type] ) ) {
+ 				$metakey = wpseo_replace_vars($options['metakey-'.$post->post_type], (array) $post );
+ 			}
+ 		} else {
+-- 
+1.7.7.msysgit.1
+

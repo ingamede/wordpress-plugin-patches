@@ -1,0 +1,39 @@
+From c93ea10c8e19f81a92a09fe0fb86831b7b75b79b Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <klischies@ingame.de>
+Date: Fri, 1 Jun 2012 20:53:03 +0200
+Subject: [PATCH 1/1] Fixed issue: Wrong script enqueuing of Sweetcaptcha
+
+---
+ .../sweetcaptcha.php                               |   12 +++++++-----
+ 1 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/sweetcaptcha-revolutionary-free-captcha-service/sweetcaptcha.php b/sweetcaptcha-revolutionary-free-captcha-service/sweetcaptcha.php
+index 71af38a..2a2ff16 100644
+--- a/sweetcaptcha-revolutionary-free-captcha-service/sweetcaptcha.php
++++ b/sweetcaptcha-revolutionary-free-captcha-service/sweetcaptcha.php
+@@ -71,10 +71,8 @@ if (is_admin()) {
+ 	
+ 	// add jquery to all public pages
+  
+-
+-		add_action( 'login_head' , 'sweetcaptcha_login_head' );
+-    wp_enqueue_script( 'jquery' );
+-
++	add_action( 'login_head' , 'sweetcaptcha_login_head' );
++	add_action( 'wp_enqueue_scripts', 'sweetcaptcha_enqueue_scripts' );
+ 	
+ 	// add Sweet Captcha to comment form
+ 	if ( get_option( 'sweetcaptcha_form_comment' ) ) {
+@@ -127,4 +125,8 @@ if ( get_option( 'sweetcaptcha_form_contact_7' ) ) {
+ // load plugin text domain - i18n
+ if ( function_exists( 'load_plugin_textdomain' ) ) {
+ 	load_plugin_textdomain( 'sweetcaptcha', true, 'sweetcaptcha/languages' );
+-}
+\ No newline at end of file
++}
++
++function sweetcaptcha_enqueue_scripts() {
++	wp_enqueue_script( 'jquery' );
++}
+-- 
+1.7.7.msysgit.1

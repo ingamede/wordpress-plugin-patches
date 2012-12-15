@@ -1,0 +1,26 @@
+From e8f89cbcef314024f0822c77b4f7d5ad639faeff Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Wed, 30 May 2012 16:47:01 +0200
+Subject: [PATCH] Fixed issue: Missing global import in XMLSitemapFeed
+
+---
+ xml-sitemap-feed/XMLSitemapFeed.class.php |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/xml-sitemap-feed/XMLSitemapFeed.class.php b/xml-sitemap-feed/XMLSitemapFeed.class.php
+index e77ea05..e9fb662 100644
+--- a/xml-sitemap-feed/XMLSitemapFeed.class.php
++++ b/xml-sitemap-feed/XMLSitemapFeed.class.php
+@@ -5,7 +5,8 @@
+ 
+ class XMLSitemapFeed {
+ 
+-	function go() {		
++	function go() {
++		global $wpdb;			
+ 		if ( '0' == get_option( 'blog_public' ) || ( $wpdb->blogid && function_exists('get_site_option') && get_site_option('tags_blog_id') == $wpdb->blogid ) ) {
+ 			// we are on a blog that blocks spiders!
+ 			// create NO sitemap
+-- 
+1.7.7.msysgit.1
+

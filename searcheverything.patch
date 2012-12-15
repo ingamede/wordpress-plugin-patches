@@ -1,0 +1,79 @@
+From d1b4daf37144efd9dfe30968e4d973e2670b159d Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Sun, 19 Feb 2012 14:26:13 +0100
+Subject: [PATCH] Fix: Searcheverything undefined indexes
+
+---
+ search-everything/search-everything.php |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/search-everything/search-everything.php b/search-everything/search-everything.php
+index d0aee52..ea42065 100644
+--- a/search-everything/search-everything.php
++++ b/search-everything/search-everything.php
+@@ -222,7 +222,7 @@ Class SearchEverything {
+ 		
+ 		global $wp_query, $wpdb;
+ 
+-		$n = ($wp_query->query_vars['exact']) ? '' : '%';
++		$n = (isset($wp_query->query_vars['exact']) && $wp_query->query_vars['exact']) ? '' : '%';
+ 		$search = '';
+ 		$seperator = ' OR ';
+ 		$terms = $this->se_get_search_terms();
+@@ -331,7 +331,7 @@ Class SearchEverything {
+ 		global $wp_query, $wpdb;
+ 		$s = $wp_query->query_vars['s'];
+ 		$search_terms = $this->se_get_search_terms();
+-		$exact = $wp_query->query_vars['exact'];
++		$exact = (isset($wp_query->query_vars['exact'])) ? $wp_query->query_vars['exact'] : false;
+ 		$search = '';
+ 
+ 		if ( !empty($search_terms) ) {
+@@ -405,7 +405,7 @@ Class SearchEverything {
+ 		global $wp_query, $wpdb;
+ 		$s = $wp_query->query_vars['s'];
+ 		$search_terms = $this->se_get_search_terms();
+-		$exact = $wp_query->query_vars['exact'];
++		$exact = (isset($wp_query->query_vars['exact'])) ? $wp_query->query_vars['exact'] : false;
+ 
+ 		if ( !empty($search_terms) ) {
+ 			// Building search query on comments content
+@@ -471,7 +471,7 @@ Class SearchEverything {
+ 		global $wp_query, $wpdb;
+ 		$s = $wp_query->query_vars['s'];
+ 		$search_terms = $this->se_get_search_terms();
+-		$exact = $wp_query->query_vars['exact'];
++		$exact = (isset($wp_query->query_vars['exact'])) ? $wp_query->query_vars['exact'] : false;
+ 		$search = '';
+ 		
+ 		if ( !empty($search_terms) ) {
+@@ -516,7 +516,7 @@ Class SearchEverything {
+ 		global $wp_query, $wpdb;
+ 		$s = $wp_query->query_vars['s'];
+ 		$search_terms = $this->se_get_search_terms();
+-		$exact = $wp_query->query_vars['exact'];
++		$exact = (isset($wp_query->query_vars['exact'])) ? $wp_query->query_vars['exact'] : false;
+ 		$search = '';
+ 
+ 		if ( !empty($search_terms) ) {
+@@ -558,7 +558,7 @@ Class SearchEverything {
+ 		global $wp_query, $wpdb;
+ 		$s = $wp_query->query_vars['s'];
+ 		$search_terms = $this->se_get_search_terms();
+-		$exact = $wp_query->query_vars['exact'];
++		$exact = (isset($wp_query->query_vars['exact'])) ? $wp_query->query_vars['exact'] : false;
+ 		$search = '';
+ 
+ 		if ( !empty($search_terms) )
+@@ -596,7 +596,7 @@ Class SearchEverything {
+ 		global $wp_query, $wpdb;
+ 		$s = $wp_query->query_vars['s'];
+ 		$search_terms = $this->se_get_search_terms();
+-		$exact = $wp_query->query_vars['exact'];
++		$exact = (isset($wp_query->query_vars['exact'])) ? $wp_query->query_vars['exact'] : false;
+ 		$search = '';
+ 
+ 		if ( !empty($search_terms) )
+-- 
+1.7.7.msysgit.1
+

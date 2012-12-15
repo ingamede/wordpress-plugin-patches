@@ -1,0 +1,39 @@
+From: Daniel Klischies <klischies@ingame.de>
+Date: Sat, 30 Jun 2012 14:42:50 +0200
+Subject: [PATCH] Fixed issue: SFC and GD Star Rating interferences
+
+---
+ simple-facebook-connect/sfc-base.php |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/simple-facebook-connect/sfc-base.php b/simple-facebook-connect/sfc-base.php
+index 335bfe4..7daf4d0 100644
+--- a/simple-facebook-connect/sfc-base.php
++++ b/simple-facebook-connect/sfc-base.php
+@@ -435,8 +435,7 @@ function sfc_remote($obj, $connection='', $args=array(), $type = 'GET') {
+ }
+ 
+ // code to create a pretty excerpt given a post object
+-function sfc_base_make_excerpt($post) { 
+-	
++function sfc_base_make_excerpt($post) {
+ 	if ( !empty($post->post_excerpt) ) 
+ 		$text = $post->post_excerpt;
+ 	else 
+@@ -446,8 +445,13 @@ function sfc_base_make_excerpt($post) {
+ 
+ 	// filter the excerpt or content, but without texturizing
+ 	if ( empty($post->post_excerpt) ) {
++		global $gdsr; // GD Star rating compatibility	
+ 		remove_filter( 'the_content', 'wptexturize' );
++		if (!empty($gdsr))
++			remove_filter('the_content', array($gdsr, 'display_article'));
+ 		$text = apply_filters('the_content', $text);
++		if (!empty($gdsr))
++			add_filter('the_content', array($gdsr, 'display_article'));
+ 		add_filter( 'the_content', 'wptexturize' );
+ 	} else {
+ 		remove_filter( 'the_excerpt', 'wptexturize' );
+-- 
+1.7.10.msysgit.1
+
