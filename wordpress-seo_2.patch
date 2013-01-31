@@ -1,0 +1,25 @@
+From 3bebbec29cd7b7a3a9b1e331ae45d52538d73ae0 Mon Sep 17 00:00:00 2001
+From: Daniel Klischies <daniel.klischies@freenet.de>
+Date: Wed, 16 Jan 2013 21:26:52 +0100
+Subject: [PATCH] Fixed issue: Wordpress SEO's sitemap functionality sending
+ wrong 200-OK http status headers
+
+---
+ wordpress-seo/inc/class-sitemaps.php |    1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/wordpress-seo/inc/class-sitemaps.php b/wordpress-seo/inc/class-sitemaps.php
+index 83160e4..2c24523 100644
+--- a/wordpress-seo/inc/class-sitemaps.php
++++ b/wordpress-seo/inc/class-sitemaps.php
+@@ -509,7 +509,6 @@ class WPSEO_Sitemaps {
+ 	 * Spit out the generated sitemap and relevant headers and encoding information.
+ 	 */
+ 	function output() {
+-		header( 'HTTP/1.1 200 OK', true, 200 );
+ 		// Prevent the search engines from indexing the XML Sitemap.
+ 		header( 'X-Robots-Tag: noindex, follow', true );
+ 		header( 'Content-Type: text/xml' );
+-- 
+1.7.10.msysgit.1
+
