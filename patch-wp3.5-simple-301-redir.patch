@@ -1,0 +1,25 @@
+From f6efe8430f1270c5f66e83b19ca1098f6e0057a3 Mon Sep 17 00:00:00 2001
+From: Conrad Kirschner <conrado3@gmx.de>
+Date: Sat, 5 Jan 2013 19:53:00 +0100
+Subject: [PATCH] Patch:Funktionsanpassung
+
+---
+ simple-301-redirects/wp-simple-301-redirects.php |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/simple-301-redirects/wp-simple-301-redirects.php b/simple-301-redirects/wp-simple-301-redirects.php
+index 47a5cd5..bfd068e 100644
+--- a/simple-301-redirects/wp-simple-301-redirects.php
++++ b/simple-301-redirects/wp-simple-301-redirects.php
+@@ -140,7 +140,7 @@ if (!class_exists("Simple301redirects")) {
+ 		function getAddress()
+ 		{
+ 			/*** check for https ***/
+-			$protocol = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
++			$protocol = is_ssl() ? 'https' : 'http';
+ 			/*** return the full address ***/
+ 			return $protocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+ 		}
+-- 
+1.7.10.msysgit.1
+
